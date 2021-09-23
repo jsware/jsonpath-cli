@@ -1,0 +1,15 @@
+{
+  "name": "jsonpath-cli",
+  "version": "1.0.0",
+  "description": "Command-Line Interface for the jsonpath-plus library",
+  "main": "bin/jpp",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Scott",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^8.2.0",
+    "jsonpath-plus": "^6.0.1"
+  }
+}

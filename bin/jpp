@@ -1,0 +1,77 @@
+#!/usr/bin/env node
+// jpp - jsonpath-plus command-line utility.
+// Copyright (C) 2021 John Scott.
+//
+// This program is free software: you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free Software
+// Foundation, either version 3 of the License, or (at your option) any later
+// version.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS
+// FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with
+// this program.  If not, see <http://www.gnu.org/licenses/>.
+'use strict';
+const fs = require('fs');
+const pkg = require('../package.json');
+const {program} = require('commander');
+const {JSONPath} = require('jsonpath-plus');
+
+program
+  .version(pkg.version, '-V, --version', 'display version')
+  .usage('[options] [JSON Input File] [JSONPath Expression]')
+  .option('-i, --input <file>', 'input JSON file (default: stdin)')
+  .option('-j, --jsonpath <expression>', 'matching expression')
+  .option('-o, --output <file>', 'output file for matches (default: stdout)')
+  .option('-p, --pretty', 'pretty print matches', false)
+  .option('-s, --separate', 'output each match separately', false)
+  .parse(process.argv);
+
+if (process.argv.length === 2) {
+  program.help();
+}
+  
+let options = program.opts();
+let arg = 0;
+let input = options.input;
+
+try {  
+  if (!input && program.args.length > arg) {
+    input = program.args[arg++];
+  }
+
+  let jsonpath = options.jsonpath;
+  if(!jsonpath) {
+    if (program.args.length <= arg) {
+      throw new Error('Missing JSONPath expression');
+    }
+
+    jsonpath = program.args[arg++];
+  }
+
+  let file = fs.readFileSync(input ? input : process.stdin.fd);
+  let json = JSON.parse(file);
+  let results = JSONPath(jsonpath, json);
+  let fout = options.output ? fs.openSync(options.output, 'w') : process.stdout.fd;
+
+  if(!options.separate) {
+    let data = (options.pretty ? JSON.stringify(results, null, 2) : JSON.stringify(results)) + '\n';
+    fs.writeSync(fout, data);
+  } else {
+    let i=1;
+    results.forEach(result => {
+      let data = (options.pretty ? JSON.stringify(result, null, 2) : JSON.stringify(result)) + '\n';
+      fs.writeSync(fout, `JSONPath Match ${i++}:`);
+      fs.writeSync(fout, data);
+    });
+  }
+
+  if (options.output) {
+    fs.closeSync(fout);
+  }
+} catch(error) {
+  console.error(error.name, error.message);
+  process.exit(1);
+}
