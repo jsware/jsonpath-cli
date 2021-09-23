@@ -4,7 +4,7 @@
   "description": "Command-Line Interface for the jsonpath-plus library",
   "main": "bin/jpp",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "test/jpp.test.sh"
   },
   "author": "John Scott",
   "license": "ISC",
