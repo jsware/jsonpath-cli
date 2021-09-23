@@ -32,7 +32,3 @@ Options:
   -s, --separate               output each match separately (default: false)
   -h, --help                   display help for command
 ```
-
-## JSONPath Expression Syntax
-
-JSONPath expression allow 
