@@ -1,34 +1,31 @@
 # jsonpath-cli
-Command-Line interface for the jsonpath library.
+Command-Line interface for the `jsonpath-plus` library.
 
-The `jpp` command enables running the jsonpath-plus library against files from
+The `jpp` command enables running the `jsonpath-plus` library against files from
 the command line. JSONPath searches return a JSON array which `jpp` outputs.
-The `--pretty` option pretty-prints the output.  Additionally, the 
+The `--pretty` option pretty-prints the output.  Additional command line options
+can be found below.
 
-## Examples
+See the [documentation](https://www.jsware.io/jsonpath-cli) for examples,
+JSONPath expression syntax and additional details.
 
-**List the paths in an OAS specification:**
-> `jpp --pretty openapi.json '$.paths.*~'`
-
-**List the paths with put or post operations:**
-> `jpp --pretty openapi.json '$.paths[?(@.put || @.post)]~'`
-
-**List the paths with get operations taking parameters:**
-> `cat openapi.json | jpp --separate --jsonpath '$.paths[?(@.get && @.get.parameters)]~' --output matches.txt`
-
-*Note that jpp can read from standard input and output to named files.*
+## Installation
+```
+npm install -g @jsware/jsonpath-cli
+```
 
 ## Usage
 
 ```
-Usage: jpp [options] [JSON Input File] [JSONPath Expression]
+Usage: jpp [options] [JSONPath Expression] [JSON Input File]
 
 Options:
   -V, --version                display version
   -i, --input <file>           input JSON file (default: stdin)
-  -j, --jsonpath <expression>  matching expression
+  -e, --jsonpath <expression>  matching expression
   -o, --output <file>          output file for matches (default: stdout)
   -p, --pretty                 pretty print matches (default: false)
   -s, --separate               output each match separately (default: false)
+  -r, --prefix [prefix]        prefix when using --separate (default: false)
   -h, --help                   display help for command
 ```

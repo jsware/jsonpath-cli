@@ -1,13 +1,38 @@
 {
-  "name": "jsonpath-cli",
+  "name": "@jsware/jsonpath-cli",
   "version": "1.0.0",
   "description": "Command-Line Interface for the jsonpath-plus library",
   "main": "bin/jpp",
   "scripts": {
+    "start": "node bin/jpp --help",
     "test": "test/jpp.test.sh"
   },
   "author": "John Scott",
-  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsware/jsonpath-cli/issues"
+  },
+  "homepage": "https://www.jsware.io/jsonpath-cli",
+  "keywords": [
+    "json",
+    "jsonpath",
+    "jsonpath-plus"
+  ],
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsware/jsonpath-cli.git"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "jpp": "./bin/jpp"
+  },
+  "files": [
+    "LICENSE",
+    "bin/jpp"
+  ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
     "commander": "^8.2.0",
     "jsonpath-plus": "^6.0.1"
