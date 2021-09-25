@@ -16,7 +16,7 @@ testPretty() {
 testSeparate() {
   result=$($jpp --separate --jsonpath '$.paths[?(@.get && @.get.parameters)]~' $test/openapi.json|wc -l)
 
-  assertEquals $result 7
+  assertEquals 7 $result
 }
 
 testPipe() {
