@@ -52,10 +52,10 @@ try {
     input = program.args[arg++];
   }
 
-  let file = fs.readFileSync(input ? input : process.stdin.fd);
+  let file = fs.readFileSync(input ? input : 0); // 0 = stdin
   let json = JSON.parse(file);
   let results = JSONPath(jsonpath, json);
-  let fout = options.output ? fs.openSync(options.output, 'w') : process.stdout.fd;
+  let fout = options.output ? fs.openSync(options.output, 'w') : 1; // 1 = stdout
 
   if(!options.separate) {
     let data = (options.pretty ? JSON.stringify(results, null, 2) : JSON.stringify(results)) + '\n';
