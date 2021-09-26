@@ -1,3 +1,17 @@
+---
+title: jsonpath-cli
+layout: splash
+header:
+  overlay_image: /assets/images/jsonpath-cli.jpg
+  overlay_filter: 0.25
+  actions:
+    - label: "<i class='fas fa-download'></i> Install now"
+      url: "#installation"
+  caption: "Photo credit: [**Unsplash**](https://unsplash.com/photos/9W_p_McNAE4)"
+excerpt: >
+  A command-line interface for the jsonpath-plus library. Run jsonpath
+  expressions against JSON files from the command line.
+---
 # jsonpath-cli
 Command-Line interface for the jsonpath-plus library.
 
