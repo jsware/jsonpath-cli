@@ -34,3 +34,7 @@ analytics:
   google:
     tracking_id: "UA-29106762-2"
     anonymize_ip: false
+
+plugins:
+  - jekyll-include-cache
+  - jekyll-seo-tag
