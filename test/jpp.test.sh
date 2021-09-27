@@ -19,6 +19,14 @@ testSeparate() {
   assertEquals 7 $result
 }
 
+testPrefixSuffix() {
+  count=$(grep -E '\s*"/.+\: {' $test/openapi.json|wc -l)
+  result=$($jpp --separate --before '{0} Endpoints:' --after 'Total {0}' --prefix 'URL {0}: ' --suffix-all ' {0}' '$.paths[*]~' test/openapi.json|grep $count|wc -l)
+
+  # Number of paths appears in before, after and last path entry == 3.
+  assertEquals 3 $result
+}
+
 testPipe() {
   count=$(grep -E '\s*"/.+\: {' $test/openapi.json|wc -l)
   result=$($jpp '$.paths[*]~' $test/openapi.json|$jpp --pretty '$[0:99:2]'|wc -l)

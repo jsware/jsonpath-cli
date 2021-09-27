@@ -35,7 +35,11 @@ program
   .option('-o, --output <file>', 'output file for matches (default: stdout)')
   .option('-p, --pretty', 'pretty print matches', false)
   .option('-s, --separate', 'output each match separately', false)
+  .option('-b, --before <text>', 'output text before any matches')
   .option('-r, --prefix [prefix]', 'prefix when using --separate', false)
+  .option('-u, --suffix <suffix>', 'suffix each match except last with <suffix>')
+  .option('-U, --suffix-all <suffix>', 'suffix all matches with <suffix>')
+  .option('-a, --after <text>', "output text after all matches")
   .parse(process.argv);
 
 if (process.argv.length === 2) {
@@ -65,22 +69,41 @@ try {
   let results = JSONPath(jsonpath, json);
   let fout = options.output ? fs.openSync(options.output, 'w') : 1; // 1 = stdout
 
+  if(options.before) {
+    fs.writeSync(fout, options.before.replace('{0}', `${results.length}`) + '\n');
+  }
+
   if(!options.separate) {
     let data = (options.pretty ? JSON.stringify(results, null, 2) : JSON.stringify(results)) + '\n';
     fs.writeSync(fout, data);
   } else {
     let i=1;
     results.forEach(result => {
-      let data = (options.pretty ? JSON.stringify(result, null, 2) : JSON.stringify(result)) + '\n';
+      let data = (options.pretty ? JSON.stringify(result, null, 2) : JSON.stringify(result));
+
       if(options.prefix) {
         if(options.prefix === true) {
-          fs.writeSync(fout, `${i++} `);
+          fs.writeSync(fout, `${i} `);
         } else {
-          fs.writeSync(fout, options.prefix.replace('{0}', `${i++}`));
+          fs.writeSync(fout, options.prefix.replace('{0}', `${i}`));
         }
       }
+
       fs.writeSync(fout, data);
+      
+      if(options.suffixAll) {
+        fs.writeSync(fout, options.suffixAll.replace('{0}', `${i}`));
+      } else if(options.suffix && i < results.length) {
+        fs.writeSync(fout, options.suffix.replace('{0}', `${i}`));
+      }
+
+      fs.writeSync(fout, '\n');
+      i++;
     });
+  }
+
+  if(options.after) {
+    fs.writeSync(fout, options.after.replace('{0}', `${results.length}`) + '\n');
   }
 
   if (options.output) {

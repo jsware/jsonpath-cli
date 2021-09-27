@@ -36,7 +36,11 @@ Options:
   -o, --output <file>          output file for matches (default: stdout)
   -p, --pretty                 pretty print matches (default: false)
   -s, --separate               output each match separately (default: false)
+  -b, --before <text>          output text before any matches
   -r, --prefix [prefix]        prefix when using --separate (default: false)
+  -u, --suffix <suffix>        suffix each match except last with <suffix>
+  -U, --suffix-all <suffix>    suffix all matches with <suffix>
+  -a, --after <text>           output text after all matches
   -h, --help                   display help for command
 ```
 
