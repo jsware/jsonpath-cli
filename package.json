@@ -5,7 +5,8 @@
   "main": "bin/jpp",
   "scripts": {
     "start": "node bin/jpp --help",
-    "test": "test/jpp.test.sh"
+    "test": "test/jpp.test.sh",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "author": "John Scott",
   "bugs": {
@@ -36,5 +37,8 @@
   "dependencies": {
     "commander": "^8.2.0",
     "jsonpath-plus": "^6.0.1"
+  },
+  "devDependencies": {
+    "auto-changelog": "^2.3.0"
   }
 }
